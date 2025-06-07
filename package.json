@@ -1,0 +1,20 @@
+{
+  "name": "photo-manager-app",
+  "version": "1.0.0",
+  "description": "A simple Photo manager app using NodeJS + ExpresJS",
+  "main": "server.js",
+  "scripts": {
+    "test": "nodemon server.js",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hieule1704/photo-manager-app.git"
+  },
+  "author": "Hieu Le Chi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hieule1704/photo-manager-app/issues"
+  },
+  "homepage": "https://github.com/hieule1704/photo-manager-app#readme"
+}

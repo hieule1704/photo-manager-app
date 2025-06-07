@@ -1,0 +1,20 @@
+<%- include('partials/header') %>
+<h1>Photo Gallery</h1>
+<div class="row">
+  <% photos.forEach(photo => { %>
+    <div class="col-md-4 mb-4">
+      <div class="card">
+        <img src="<%= photo.image %>" class="card-img-top" alt="<%= photo.title %>" style="height: 200px; object-fit: cover;">
+        <div class="card-body">
+          <h5 class="card-title"><%= photo.title %></h5>
+          <p class="card-text"><%= photo.description || 'No description' %></p>
+          <a href="/edit/<%= photo._id %>" class="btn btn-primary">Edit</a>
+          <form action="/delete/<%= photo._id %>" method="POST" class="d-inline">
+            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  <% }) %>
+</div>
+<%- include('partials/footer') %>
