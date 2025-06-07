@@ -1,111 +1,159 @@
-Photo Manager App
+# Photo Manager Web App
 
-Overview
+A simple photo management web application built with **Node.js**, **Express**, **EJS**, **MongoDB**, and **Bootstrap**. This project demonstrates **CRUD operations** (Create, Read, Update, Delete) for managing photos, using **Multer** for file uploads and **Express Validator** for form validation. It’s designed for learning purposes, with clear code structure and comments to understand Express and middleware.
 
-Photo Manager is a web-based application built with React and Tailwind CSS, allowing users to upload, view, and delete photos. It features a responsive photo grid, a lightbox for full-screen image viewing, and a simple upload form.
+## Features
 
-Features
+- **Create**: Upload images (JPEG/PNG, max 5MB) with a title and optional description.
+- **Read**: View a gallery of all uploaded photos.
+- **Update**: Edit photo titles and descriptions.
+- **Delete**: Remove photos from the gallery and file system.
+- **Responsive UI**: Built with Bootstrap for a clean, mobile-friendly interface.
+- **File Storage**: Images are stored in the `public/uploads/` folder, with file paths saved in MongoDB.
 
-Photo Grid: Displays uploaded photos in a responsive grid layout.
+## Tech Stack
 
-Lightbox: View individual photos in a full-screen modal with navigation.
+- **Node.js/Express**: Backend framework for handling routes and middleware.
+- **EJS**: Template engine for dynamic HTML rendering.
+- **MongoDB/Mongoose**: Database for storing photo metadata.
+- **Multer**: Middleware for handling file uploads.
+- **Express Validator**: Middleware for form validation.
+- **Bootstrap**: Frontend framework for styling.
 
-Upload Photos: Upload images (JPEG, PNG) via a drag-and-drop or file selection interface.
+## Project Structure
 
-Delete Photos: Remove photos from the grid with a delete button.
-
-Responsive Design: Optimized for both desktop and mobile devices using Tailwind CSS.
-
-Tech Stack
-
-React: Frontend library for building the UI.
-
-Tailwind CSS: Utility-first CSS framework for styling.
-
-JavaScript (ES6+): Core programming language.
-
-CDN Dependencies: React, ReactDOM, and Tailwind CSS via CDN.
-
-Setup Instructions
-
-Clone or Download the Project
-
-If using a repository, clone it: git clone <repository-url>.
-
-Alternatively, use the index.html file provided in the project.
-
-Serve the Application
-
-No build step is required as the app uses CDN-hosted dependencies.
-
-Open index.html in a modern web browser (Chrome, Firefox, etc.).
-
-Alternatively, use a local server (e.g., npx serve or python -m http.server) to serve the index.html file for a better development experience.
-
-Dependencies
-
-No npm or yarn installation is needed since dependencies are loaded via CDN:
-
-React and ReactDOM from cdn.jsdelivr.net.
-
-Tailwind CSS via <script> tag in index.html.
-
-File Structure
-
+```
 photo-manager/
-├── index.html # Main HTML file with React app
-├── README.md # This file
+├── public/
+│   ├── uploads/          # Stores uploaded images
+│   ├── css/
+│   │   └── styles.css    # Custom CSS
+│   └── js/
+│       └── scripts.js    # Optional client-side JS
+├── views/
+│   ├── partials/
+│   │   ├── header.ejs    # Header template
+│   │   └── footer.ejs    # Footer template
+│   ├── index.ejs         # Gallery page
+│   ├── upload.ejs        # Upload form
+│   └── edit.ejs          # Edit form
+├── routes/
+│   └── photoRoutes.js    # Express routes for CRUD
+├── middleware/
+│   └── upload.js         # Multer configuration
+├── models/
+│   └── Photo.js          # Mongoose schema
+├── .env                  # Environment variables
+├── server.js             # Main Express app
+├── package.json          # Project dependencies
+└── README.md             # This file
+```
 
-Usage
+## Prerequisites
 
-Uploading Photos:
+- **Node.js** (v22.14.0 or later recommended)
+- **MongoDB** (local installation or MongoDB Atlas)
+- **npm** (comes with Node.js)
 
-Click the "Choose File" button or drag and drop images into the upload area.
+## Setup Instructions
 
-Supported formats: JPEG, PNG.
+1. **Clone the Repository** (if applicable):
 
-Uploaded photos appear in the grid immediately.
+   ```bash
+   git clone https://github.com/hieule1704/photo-manager-app.git
+   cd photo-manager
+   ```
 
-Viewing Photos:
+2. **Initialize the Project**:
 
-Click any photo in the grid to open it in a lightbox.
+   ```bash
+   npm init -y
+   ```
 
-Use arrow buttons (or keyboard arrows) to navigate between photos.
+   Update `package.json` with:
 
-Click the close button or press Esc to exit the lightbox.
+   ```json
+   "main": "server.js",
+   "scripts": {
+     "start": "node server.js",
+     "test": "echo \"Error: no test specified\" && exit 1"
+   }
+   ```
 
-Deleting Photos:
+3. **Install Dependencies**:
 
-Hover over a photo in the grid to reveal the delete button.
+   ```bash
+   npm install express ejs mongodb mongoose multer dotenv express-validator bootstrap
+   ```
 
-Click the delete button to remove the photo from the grid.
+4. **Set Up MongoDB**:
 
-Notes
+   - Install MongoDB locally or use MongoDB Atlas.
+   - Start the MongoDB server: `mongod` (for local installation).
+   - Create a `.env` file in the root directory:
+     ```env
+     MONGODB_URI=mongodb://localhost:27017/photo_manager
+     PORT=3000
+     ```
 
-The app stores photos in memory (React state) and does not persist data across page refreshes.
+5. **Create the Uploads Folder**:
 
-For production use, consider adding a backend (e.g., Node.js, Firebase) for persistent storage.
+   ```bash
+   mkdir -p public/uploads
+   ```
 
-The app is sandboxed and does not use <form> for uploads due to browser restrictions.
+6. **Run the Application**:
+   ```bash
+   npm start
+   ```
+   Open `http://localhost:3000` in your browser.
 
-Limitations
+## Usage
 
-No server-side storage; photos are lost on page refresh.
+- **Upload a Photo**:
+  - Go to `/upload`, enter a title, optional description, and select an image (JPEG/PNG, <5MB).
+  - Submit to save the image to `public/uploads/` and its metadata to MongoDB.
+- **View Gallery**:
+  - Visit `/` to see all uploaded photos in a responsive grid.
+- **Edit a Photo**:
+  - Click "Edit" on a photo to update its title or description.
+- **Delete a Photo**:
+  - Click "Delete" to remove a photo from the database (Note: File deletion requires additional setup; see "Future Improvements").
 
-File size and type validation is basic; enhance as needed for production.
+## Verifying Uploads
 
-Lightbox navigation assumes sequential photo access.
+- **Images**: Check `public/uploads/` for uploaded files (e.g., `123456789.jpg`).
+- **Database**: Use MongoDB Compass or the MongoDB shell:
+  ```bash
+  mongo
+  use photo_manager
+  db.photos.find().pretty()
+  ```
+  Look for documents with `image` fields containing paths like `/uploads/filename.jpg`.
 
-Future Improvements
+## Future Improvements
 
-Add persistent storage with a backend API.
+- **File Deletion**: Add logic to delete image files from `public/uploads/` when a photo is deleted from the database.
+- **Authentication**: Integrate `passport` for user login and photo ownership.
+- **Cloud Storage**: Use `multer-s3` to store images in AWS S3 instead of the local file system.
+- **Pagination**: Add `mongoose-paginate-v2` for large galleries.
+- **Image Previews**: Add client-side JavaScript for image previews before upload.
 
-Implement photo categorization or tagging.
+## Troubleshooting
 
-Add bulk upload/delete functionality.
+- **Images Not Saving**: Ensure `public/uploads/` exists and is writable. Check file size (<5MB) and type (JPEG/PNG).
+- **MongoDB Errors**: Verify MongoDB is running and the `MONGODB_URI` is correct.
+- **Static Files Not Loading**: Confirm `app.use(express.static('public'))` is in `server.js`.
 
-Enhance accessibility (e.g., ARIA labels, keyboard navigation).
+## Learning Points
 
-License
+- **Express**: Understand routing and middleware through `photoRoutes.js` and `upload.js`.
+- **Multer**: Learn file upload handling with `diskStorage` for saving images to the file system.
+- **MongoDB/Mongoose**: Explore schema design and CRUD operations in `Photo.js`.
+- **EJS/Bootstrap**: See how templates and partials create a dynamic, styled UI.
 
-This project is unlicensed and free to use. Feel free to modify and distribute as needed.
+## License
+
+MIT License. Feel free to use and modify this project for learning or personal use.
+
+For issues or contributions, contact the developer or open a GitHub issue.
