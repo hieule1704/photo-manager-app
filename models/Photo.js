@@ -12,7 +12,7 @@ const photoSchema = new mongoose.Schema({
     trim: true,
   },
   image: {
-    type: String, // Store image as Base64 string
+    type: String, // Store image as Base64 string or Store file path (e.g., /uploads/photo.jpg)
     required: true,
   },
   createdAt: {
